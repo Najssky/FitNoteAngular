@@ -5,8 +5,9 @@
       <input
         matInput
         placeholder="pat@example.com"
-        [formControl]="email"
+        [(ngModel)]="email"
         required
+        value="email"
       />
       <mat-error *ngIf="email.invalid">{{ getEmailErrorMessage() }}</mat-error>
     </mat-form-field>
@@ -15,8 +16,9 @@
       <input
         matInput
         [type]="hide ? 'password' : 'text'"
-        [formControl]="password"
+        [(ngModel)]="password"
         required
+        value="pass"
       />
       <button
         mat-icon-button
@@ -32,5 +34,5 @@
       }}</mat-error>
     </mat-form-field>
   </div>
-  <button mat-raised-button color="primary">Login</button>
+  <button mat-raised-button color="primary" (click)="(login)">Login</button>
 </div>
