@@ -14,18 +14,20 @@ import { AuthService } from 'src/app/services/auth.service';
   //     },
   //   ],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent{
   constructor(private Auth: AuthService) {}
-  ngOnInit(): void {}
   hide = true;
 
-  email = new FormControl('', [Validators.required, Validators.email]);
-  password = new FormControl('', [
+  email = new FormControl<string | null>('', [Validators.required, Validators.email]);
+  password = new FormControl<string | null>('', [
     Validators.required,
     Validators.minLength(1),
   ]);
   login() {
-    this.Auth.login(this.email.value, this.password.value);
+    if(this.email.value && this.password.value){
+      this.Auth.login(this.email.value, this.password.value);
+    }
+    
   }
   getEmailErrorMessage() {
     if (this.email.hasError('required')) {
