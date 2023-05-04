@@ -10,3 +10,13 @@
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url("https://i.imgur.com/TyAhM90.jpg") fixed center no-repeat;
 }
+mat-chip-listbox {
+  position: absolute;
+  left: 45%;
+}
+app-login {
+  transition-duration: 2s;
+}
+app-register {
+  transition-duration: 2s;
+}

@@ -15,12 +15,11 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string) {
-    console.log(email,password)
-    const login =  this.http.post(AUTH_API + 'login', {
+    console.log(email, password);
+    const login = this.http.post(AUTH_API + 'login', {
       email,
       password,
-    }).subscribe((item )=> console.log(item));
-    console.log(login)
+    });
   }
 
   register(

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -14,20 +14,25 @@ import { AuthService } from 'src/app/services/auth.service';
   //     },
   //   ],
 })
-export class LoginComponent{
+export class LoginComponent {
   constructor(private Auth: AuthService) {}
   hide = true;
 
-  email = new FormControl<string | null>('', [Validators.required, Validators.email]);
+  email = new FormControl<string | null>('', [
+    Validators.required,
+    Validators.email,
+  ]);
   password = new FormControl<string | null>('', [
     Validators.required,
     Validators.minLength(1),
   ]);
   login() {
-    if(this.email.value && this.password.value){
+    if (this.email.value && this.password.value) {
       this.Auth.login(this.email.value, this.password.value);
+      alert('Login successfully');
+    } else {
+      console.log('You must enter email and pasword');
     }
-    
   }
   getEmailErrorMessage() {
     if (this.email.hasError('required')) {
