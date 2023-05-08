@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import bootstrap5Plugin from '@fullcalendar/bootstrap5';
 import { CalendarOptions } from '@fullcalendar/core'; // useful for typechecking
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -14,10 +15,13 @@ export interface DialogData {
   styleUrls: ['./calendar.component.scss'],
 })
 export class CalendarComponent {
+  // Modal
   constructor(public dialog: MatDialog) {}
+
   openDialog(date: any): void {
     const dialogRef = this.dialog.open(TrainingInfoComponent, {
       data: { Date: date },
+      panelClass: 'customModalbox',
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -27,8 +31,9 @@ export class CalendarComponent {
 
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
-    plugins: [interactionPlugin, dayGridPlugin],
+    plugins: [interactionPlugin, dayGridPlugin, bootstrap5Plugin],
     selectable: true,
+    themeSystem: 'bootstrap5',
     dateClick: (info) => this.openDialog(info.dateStr),
   };
 }

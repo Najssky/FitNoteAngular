@@ -10,13 +10,13 @@ import { CalendarComponent } from './components/calendar/calendar.component';
 import { LoginComponent } from './components/login/login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { RegisterComponent } from './components/register/register.component';
+import { TrainingInfoComponent } from './components/training-info/training-info.component';
 import { AngularMaterialModule } from './modules/angular-material.module';
 import { AuthService } from './services/auth.service';
 import { TokenStorageService } from './services/token-storage.service';
 import { HomeComponent } from './views/home/home.component';
 import { UnloggedHomeComponent } from './views/unlogged-home/unlogged-home.component';
-import { TrainingInfoComponent } from './components/training-info/training-info.component';
-
+import { NgBootstrapModule } from './modules/ng-bootstrap.module';
 
 @NgModule({
   declarations: [
@@ -38,6 +38,7 @@ import { TrainingInfoComponent } from './components/training-info/training-info.
     FormsModule,
     AngularMaterialModule,
     FullCalendarModule,
+	NgBootstrapModule,
   ],
   providers: [AuthService, TokenStorageService],
   bootstrap: [AppComponent],
