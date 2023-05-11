@@ -11,12 +11,13 @@
         [formGroupName]="i"
       >
         <mat-form-field class="col-4">
-          <input
-            matInput
-            formControlName="Exercise"
-            placeholder="Exercise"
-            autocomplete="Exercise"
-          />
+          <mat-select [(value)]="selectedExercise">
+            <mat-option
+              *ngFor="let exercise of exercisesList"
+              [value]="exercise.exercise_name.toLowerCase()"
+              >{{ exercise.exercise_name }}</mat-option
+            >
+          </mat-select>
         </mat-form-field>
 
         <mat-form-field class="col-3">
