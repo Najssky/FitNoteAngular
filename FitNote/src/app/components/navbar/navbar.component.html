@@ -1,1 +1,13 @@
-<p>navbar works!</p>
+<div class="navContainer">
+  <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+    <li [ngbNavItem]="1">
+      <button ngbNavLink>One</button>
+    </li>
+    <li [ngbNavItem]="2">
+      <button ngbNavLink>Two</button>
+    </li>
+    <li [ngbNavItem]="3">
+      <button ngbNavLink>Three</button>
+    </li>
+  </ul>
+</div>

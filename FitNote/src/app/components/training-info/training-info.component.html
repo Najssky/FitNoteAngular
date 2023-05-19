@@ -5,18 +5,20 @@
       <div
         class="row"
         *ngFor="
-          let exercise of trainingForm.controls.exercises.controls;
-          let i = index
-        "
-        [formGroupName]="i"
+          let exercise of trainingForm.exercises.controls;
+          let i = index;"
       >
         <mat-form-field class="col-4">
-          <mat-select [(value)]="selectedExercise">
+          <mat-select
+            [formControlName]="i"
+            placeholder="Choose exercise"
+          >
             <mat-option
               *ngFor="let exercise of exercisesList"
               [value]="exercise.exercise_name.toLowerCase()"
-              >{{ exercise.exercise_name }}</mat-option
             >
+              {{ exercise.exercise_name }}
+            </mat-option>
           </mat-select>
         </mat-form-field>
 
@@ -41,7 +43,7 @@
             mat-icon-button
             color="primary"
             aria-label="Remove/clear"
-            (click)="removeOrClearExcersise(i)"
+            (click)="removeExercise(i)"
             matTooltip="Remove"
           >
             <mat-icon>highlight_off</mat-icon>
@@ -54,7 +56,7 @@
         extended
         color="primary"
         aria-label="Add exercise"
-        (click)="addExceriseFormGroup()"
+        (click)="addExercise()"
         matTooltip="Add exercise"
       >
         Add exercise

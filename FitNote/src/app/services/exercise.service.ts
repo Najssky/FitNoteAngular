@@ -13,7 +13,6 @@ export class ExerciseService {
   constructor(private http: HttpClient) {}
 
   getExercises() {
-    console.log(AUTH_API + 'Exercise');
     return this.http.get<ExerciseType[]>(AUTH_API + 'Exercise');
   }
 }
