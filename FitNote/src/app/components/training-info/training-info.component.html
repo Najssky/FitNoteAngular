@@ -1,93 +1,65 @@
 <h1 mat-dialog-title>Training on {{ data.Date }}</h1>
-<div class="modalHasNotTraining">
-  <div mat-dialog-content [formGroup]="trainingForm">
-    <div formArrayName="exercises">
-      <div
-        class="row"
-        *ngFor="
-          let exercise of trainingForm.exercises.controls;
-          let i = index;"
-      >
-        <mat-form-field class="col-4">
-          <mat-select
-            [formControlName]="i"
-            placeholder="Choose exercise"
-          >
-            <mat-option
-              *ngFor="let exercise of exercisesList"
-              [value]="exercise.exercise_name.toLowerCase()"
-            >
-              {{ exercise.exercise_name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field class="col-3">
-          <input
-            matInput
-            formControlName="Reps"
-            placeholder="Reps"
-            autocomplete="Reps"
-          />
-        </mat-form-field>
-        <mat-form-field class="col-3">
-          <input
-            matInput
-            formControlName="Weight"
-            placeholder="Weight"
-            autocomplete="Weight"
-          />
-        </mat-form-field>
-        <div class="col-1">
-          <button
-            mat-icon-button
-            color="primary"
-            aria-label="Remove/clear"
-            (click)="removeExercise(i)"
-            matTooltip="Remove"
-          >
-            <mat-icon>highlight_off</mat-icon>
-          </button>
-        </div>
-      </div>
-      <button
-        class="float-left"
-        mat-fab
-        extended
-        color="primary"
-        aria-label="Add exercise"
-        (click)="addExercise()"
-        matTooltip="Add exercise"
-      >
-        Add exercise
-        <mat-icon>add_circle_outline</mat-icon>
-      </button>
-      <button
-        class="float-left"
-        mat-fab
-        extended
-        color="primary"
-        aria-label="Submit training"
-        (click)="addTraining()"
-        matTooltip="Submit training"
-      >
-        Submit training
-        <mat-icon>add_circle_outline</mat-icon>
-      </button>
+<div class="modalHasNotTraining" *ngIf="this.userTraining?.length < 1">
+  <div mat-dialog-content>
+    <div fxLayout="column">
+      <h2>{{formTitle}}</h2>>
+      <mat-card >
+          <mat-card-content *ngFor="let exercise of exercises; let i=index;" class="mat-form" [ngClass]="{'responsive': isResponsive}">
+              <mat-form-field class="col-6">
+                <mat-select
+                  placeholder="Choose exercise"
+                  [(ngModel)]="exercise.Exercise"
+                >
+                  <mat-option
+                    *ngFor="let exercise of exercisesList"
+                    [value]="exercise.exercise_name"
+                  >
+                    {{ exercise.exercise_name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="col-2">
+                <input type="number"
+                min="0" step="any"
+                  matInput
+                  placeholder="Reps"
+                  autocomplete="Reps"
+                  [(ngModel)]="exercise.Reps"
+                />
+              </mat-form-field>
+              <mat-form-field class="col-2">
+                <input type="number"
+                min="0" step="any"
+                  matInput
+                  placeholder="Weight"
+                  autocomplete="Weight"
+                  [(ngModel)]="exercise.Weight"
+                />
+              </mat-form-field>
+          </mat-card-content>
+    </mat-card>
+    <button mat-raised-button color="primary" style="margin-top: 16px;" (click)="addNewExercise()" >
+      <mat-icon>add</mat-icon>  Add another set of exercises
+    </button> 
+    <button mat-raised-button color="primary" style="margin-top: 16px;" (click)="onSubmit()" >
+      <mat-icon>add</mat-icon>  Submit your training
+    </button>  
+  </div>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button (click)="onNoClick()">Close</button>
     </div>
   </div>
-
-  <div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">Close</button>
-  </div>
-</div>
-
-<!-- <div class="modalHasTraining" *ngIf="hasTraining">
+<div class="modalHasTraining" *ngIf="this.userTraining?.length >0">
   <div mat-dialog-content>
     <p>Your exercises:</p>
+    {{userTraining}}
   </div>
   <div mat-dialog-actions>
     <button mat-button (click)="onNoClick()">No Thanks</button>
     <button mat-button cdkFocusInitial>Ok</button>
   </div>
-</div> -->
+</div>
+
+
+

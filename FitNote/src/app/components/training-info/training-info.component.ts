@@ -1,107 +1,72 @@
+
+import { TrainingService } from './../../services/training.service';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
+import { IExerciseSet } from '../../services/training.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import {
-  ExerciseService,
-  ExerciseType,
-} from 'src/app/services/exercise.service';
-import { TrainingService } from 'src/app/services/training.service';
 import { DialogData } from '../calendar/calendar.component';
+import { ExerciseService, ExerciseType } from 'src/app/services/exercise.service';
+    
+    @Component({
+      selector: 'app-training-info',
+      templateUrl: './training-info.component.html',
+      styleUrls: ['./training-info.component.scss']
+    })
+    export class TrainingInfoComponent implements OnInit {
+      public isResponsive = false;
+      public hasTraining = false;
+      public exercisesList: ExerciseType[] = [];
+      public userTraining: any;
+      public formTitle = "Enter your workout details:";
+      public exercises :Array<IExerciseSet>= [
+        {Exercise: '', Reps:0, Weight:0}
+      ];
+      constructor(
+        public dialogRef: MatDialogRef<TrainingInfoComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: DialogData,
+        private _ts:TrainingService,
+        private _es:ExerciseService
+      ){}  
+      ngOnInit() {
+        this.getExercises()
+        this.getTraining();
+        
+      }
+      addNewExercise(){
+        this.exercises.push({Exercise:'',Reps:0,Weight:0});  
+      }
+    
+      removeExercise(idx:number):void{
+        this.exercises.splice(idx,1);  
+      }
+      onSubmit(): void {
+        const postExercises = this.exercises.map((item:any) => ({
+          Exercises: item.Exercise,
+          Reps: item.Reps,
+          Weight: item.Weight
+      })).join(', ')
+        this._ts.postTraining({"training_details": JSON.stringify(this.exercises),
+          "training_user_id": '7046dd17-0b7b-4db2-256d-08db59e269e4',
+          "training_date": this.data.Date});
+      }
+    onNoClick() {
+      this.dialogRef.close();
 
-@Component({
-  selector: 'app-training-info',
-  templateUrl: './training-info.component.html',
-  styleUrls: ['./training-info.component.scss'],
-})
-export class TrainingInfoComponent implements OnInit {
-  public hasTraining = false;
-  public trainingForm: FormGroup | any;
-  public exercisesList: ExerciseType[] = [];
-  public userTaining: any = [];
-  public selectedExercises = this.exercisesList.map((_) => 0);
-  constructor(
-    public dialogRef: MatDialogRef<TrainingInfoComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    private formBuilder: FormBuilder,
-    private Exercise: ExerciseService,
-    private Training: TrainingService
-  ) {
-    this.trainingForm = this.formBuilder.group({
-      Exercises: this.formBuilder.array([]),
-      Reps: ['', Validators.required],
-      Weight: ['', Validators.required],
-    });
-  }
-  ngOnInit() {
-    this.getExercises();
-    this.getTraining();
-  }
-  get ExerciseFields() {
-    return this.trainingForm.get('Exercises') as FormArray;
-  }
-
-  addExercise(): void {
-    const exerciseField = this.formBuilder.control('', Validators.required);
-    this.ExerciseFields.push(exerciseField);
-  }
-
-  removeExercise(index: number): void {
-    this.ExerciseFields.removeAt(index);
-  }
-  addTraining() {
-    // const mappedExercises = this.trainingForm.controls.exercises.controls.map(
-    //   (item: any) => ({
-    //     Exercises: item.controls.Exercise.value,
-    //     Reps: item.controls.Reps.value,
-    //     Weight: item.controls.Weight.value,
-    //   })
-    // );
-    // const training: TrainingType = {
-    //   training_details: JSON.stringify(mappedExercises),
-    //   training_user_id: '063b027c-fa72-43d4-aca1-10b8a2a05123',
-    //   training_date: '2023-05-16',
-    // };
-    if (this.trainingForm.valid) {
-      const mappedExercises = {
-        Exercises: this.ExerciseFields.value,
-        Reps: this.trainingForm.get('Reps').value,
-        Weight: this.trainingForm.get('Weight').value,
-      };
-      let training = {
-        training_details: JSON.stringify(mappedExercises),
-        training_user_id: '063b027c-fa72-43d4-aca1-10b8a2a05123',
-        training_date: '2023-05-16',
-      };
-      this.Training.postTraining(training).subscribe(
-        (response) => {
-          console.log('Success', response);
-          // Tutaj możesz obsłużyć odpowiedź serwera
-        },
-        (error) => {
-          console.error('Error', error);
-          // Tutaj możesz obsłużyć błąd
-        }
-      );
     }
-    console.log('dupa');
+    getExercises() {
+      this._es.getExercises().subscribe((res) => {
+        this.exercisesList = res;
+        console.log(this.exercisesList);
+      });
+
+    }
+    getTraining() {
+      let id = '7046dd17-0b7b-4db2-256d-08db59e269e4';
+      this._ts.getTrainingByUserAndDate(id, this.data.Date).subscribe((res: any) => {
+        this.userTraining = res;
+        console.log(this.userTraining.length)
+      });
+    }
   }
-  onNoClick() {
-    this.dialogRef.close();
-    console.log(this.selectedExercises);
-  }
-  getExercises() {
-    this.Exercise.getExercises().subscribe((res) => {
-      this.exercisesList = res;
-      console.log(this.exercisesList);
-    });
-  }
-  getTraining() {
-    let id = '63f551c5-b58b-4ad4-8f73-67948a47d8bf';
-    let date = '2023-05-15';
-    this.Training.getTrainingByUserAndDate(id, date).subscribe((res) => {
-      this.userTaining = res;
-      console.log(this.userTaining);
-      console.log(res);
-    });
-  }
-}
