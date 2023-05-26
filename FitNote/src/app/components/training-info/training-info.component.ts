@@ -1,5 +1,5 @@
 
-import { TrainingService } from './../../services/training.service';
+import { TrainingService, TrainingType } from './../../services/training.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -15,10 +15,13 @@ import { ExerciseService, ExerciseType } from 'src/app/services/exercise.service
       styleUrls: ['./training-info.component.scss']
     })
     export class TrainingInfoComponent implements OnInit {
-      public isResponsive = false;
-      public hasTraining = false;
-      public exercisesList: ExerciseType[] = [];
-      public userTraining: any;
+      public isResponsive = false
+      public isEditing = false
+      public hasTraining = false
+      public exercisesList: ExerciseType[] = []
+      public userTraining :Array<TrainingType> = []
+      public userTrainingDetails :any[]=[]
+      public mappedTraining:any
       public formTitle = "Enter your workout details:";
       public exercises :Array<IExerciseSet>= [
         {Exercise: '', Reps:0, Weight:0}
@@ -31,15 +34,14 @@ import { ExerciseService, ExerciseType } from 'src/app/services/exercise.service
       ){}  
       ngOnInit() {
         this.getExercises()
-        this.getTraining();
-        
+        this.getTraining()
       }
       addNewExercise(){
-        this.exercises.push({Exercise:'',Reps:0,Weight:0});  
+        this.exercises.push({Exercise:'',Reps:0,Weight:0})
       }
     
       removeExercise(idx:number):void{
-        this.exercises.splice(idx,1);  
+        this.exercises.splice(idx,1)
       }
       onSubmit(): void {
         const postExercises = this.exercises.map((item:any) => ({
@@ -49,24 +51,45 @@ import { ExerciseService, ExerciseType } from 'src/app/services/exercise.service
       })).join(', ')
         this._ts.postTraining({"training_details": JSON.stringify(this.exercises),
           "training_user_id": '7046dd17-0b7b-4db2-256d-08db59e269e4',
-          "training_date": this.data.Date});
+          "training_date": this.data.Date})
       }
     onNoClick() {
-      this.dialogRef.close();
-
+      this.dialogRef.close()
     }
     getExercises() {
       this._es.getExercises().subscribe((res) => {
-        this.exercisesList = res;
-        console.log(this.exercisesList);
+        this.exercisesList = res
+        console.log(this.exercisesList)
       });
 
     }
     getTraining() {
       let id = '7046dd17-0b7b-4db2-256d-08db59e269e4';
       this._ts.getTrainingByUserAndDate(id, this.data.Date).subscribe((res: any) => {
-        this.userTraining = res;
-        console.log(this.userTraining.length)
+        this.userTraining = res
+        this.mappedTraining = this.userTraining.map((item:any) => ({
+          training_id: item.training_id,
+          training_details: item.training_details,
+          training_user_id: item.training_user_id,
+          training_date: item.training_date,
+        }))
+        console.log(this.userTraining)
+        console.log(this.mappedTraining)
+        this.mappedTraining.forEach((item:any) => {
+          const parsedDetails = JSON.parse(item.training_details);
+          this.userTrainingDetails.push(parsedDetails);
+        })
+        console.log(this.userTrainingDetails)
       });
+    }
+
+    saveChanges(){
+      this._ts.putTraining({
+      "training_id": this.mappedTraining.training_id,
+      "training_details": JSON.stringify(this.userTrainingDetails),
+      "training_user_id": this.mappedTraining.training_user_id,
+      "training_date": this.mappedTraining.training_date})
+      this.isEditing = false
+      console.log(this.userTrainingDetails)
     }
   }

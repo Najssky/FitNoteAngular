@@ -1,14 +1,21 @@
 .mat-form {
     display: flex;
     flex-direction: column;
-  }
+}
 
-  .responsive {
+.responsive {
     flex-wrap: wrap;
-  }
+}
 
-  @media (min-width: 768px) {
-    .mat-form {
+@media (min-width: 768px) {
+  .mat-form {
       flex-direction: row;
-    }
   }
+}
+.mat-raised-button.mat-success,
+.mat-flat-button.mat-success,
+.mat-fab.mat-success,
+.mat-mini-fab.mat-success {
+  color: #f0fff3;
+  background-color: #00ac25;
+}

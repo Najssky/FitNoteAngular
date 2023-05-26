@@ -1,8 +1,8 @@
 <h1 mat-dialog-title>Training on {{ data.Date }}</h1>
-<div class="modalHasNotTraining" *ngIf="this.userTraining?.length < 1">
+<div class="modalHasNotTraining" *ngIf="this.userTraining.length < 1">
   <div mat-dialog-content>
     <div fxLayout="column">
-      <h2>{{formTitle}}</h2>>
+      <h2>{{formTitle}}</h2>
       <mat-card >
           <mat-card-content *ngFor="let exercise of exercises; let i=index;" class="mat-form" [ngClass]="{'responsive': isResponsive}">
               <mat-form-field class="col-6">
@@ -36,6 +36,15 @@
                   [(ngModel)]="exercise.Weight"
                 />
               </mat-form-field>
+              <button
+            mat-icon-button
+            color="primary"
+            aria-label="Remove/clear"
+            (click)="removeExercise(i)"
+            matTooltip="Remove"
+          >
+            <mat-icon>highlight_off</mat-icon>
+          </button>
           </mat-card-content>
     </mat-card>
     <button mat-raised-button color="primary" style="margin-top: 16px;" (click)="addNewExercise()" >
@@ -50,14 +59,68 @@
       <button mat-button (click)="onNoClick()">Close</button>
     </div>
   </div>
-<div class="modalHasTraining" *ngIf="this.userTraining?.length >0">
+<div class="modalHasTraining" *ngIf="this.userTraining.length > 0">
   <div mat-dialog-content>
     <p>Your exercises:</p>
-    {{userTraining}}
+  <mat-card >
+    <mat-card-content *ngFor="let exercise of userTrainingDetails[0]; let i=index;" class="mat-form" [ngClass]="{'responsive': isResponsive}">
+        <mat-form-field class="col-6">
+          <mat-select
+            placeholder="Choose exercise"
+            [(ngModel)]="exercise.Exercise"
+            [disabled]="!isEditing"
+          >
+            <mat-option
+              *ngFor="let exercise of exercisesList"
+              [value]="exercise.exercise_name"
+            >
+              {{ exercise.exercise_name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="col-2">
+          <input type="number"
+          min="0" step="any"
+            matInput
+            placeholder="Reps"
+            autocomplete="Reps"
+            [(ngModel)]="exercise.Reps"
+            [disabled]="!isEditing"
+          />
+        </mat-form-field>
+        <mat-form-field class="col-2">
+          <input type="number"
+          min="0" step="any"
+            matInput
+            placeholder="Weight"
+            autocomplete="Weight"
+            [(ngModel)]="exercise.Weight"
+            [disabled]="!isEditing"
+          />
+        </mat-form-field>
+        <button 
+        *ngIf="isEditing"
+      mat-icon-button
+      color="primary"
+      aria-label="Remove/clear"
+      (click)="removeExercise(i)"
+      matTooltip="Remove"
+    >
+      <mat-icon>highlight_off</mat-icon>
+    </button>
+    </mat-card-content>
+</mat-card>
+<button mat-raised-button color="primary" style="margin-top: 16px;" *ngIf="isEditing
+" (click)="addNewExercise()" >
+  <mat-icon>add</mat-icon>  Add another set of exercises
+</button> 
   </div>
   <div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">No Thanks</button>
-    <button mat-button cdkFocusInitial>Ok</button>
+    <button mat-raised-button color="warn" style="margin-top: 16px;" (click)="onNoClick()"> Close </button>
+    <button mat-raised-button color="success" style="margin-top: 16px;" (click)="isEditing = true" *ngIf="!isEditing
+    "> Edit your training </button>
+    <button mat-raised-button color="success" style="margin-top: 16px;" (click)="saveChanges()" *ngIf="isEditing
+    "> Save changes in your training </button>
   </div>
 </div>
 
