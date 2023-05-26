@@ -22,7 +22,9 @@ export class TrainingService {
         }
       );
   }
-
+  putTraining(data:any){
+  return this.http.put(this.apiUrl, data);
+}
   getTrainingByUserAndDate(userId: string, date: string) {
      return this.http.get(this.apiUrl + "byUserIdAndDate/" + userId + "?Training_date=" + date
     );
