@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { AngularMaterialModule } from '../modules/angular-material.module';
 const AUTH_API = 'https://localhost:44369/api/Authentication/';
 
 const httpOptions = {
@@ -12,33 +12,73 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private material: AngularMaterialModule,
+    private jwtHelper: JwtHelperService
+  ) {}
 
   login(email: string, password: string) {
-    console.log(email, password);
-    const login = this.http.post(AUTH_API + 'login', {
-      email,
-      password,
-    });
+    this.http
+      .post(AUTH_API + 'login', {
+        email,
+        password,
+      })
+      .subscribe(
+        (response: any) => {
+          console.log('Response:', response);
+          this.material.showAlert('Login successfully');
+          sessionStorage.setItem('access_token', response.data.accessToken);
+          console.log(response.data.accessToken);
+          if (response.data.accessToken) {
+            const decodedToken = this.jwtHelper.decodeToken(
+              response.data.accessToken
+            );
+            console.log(decodedToken);
+            sessionStorage.setItem('userId', decodedToken.User_id);
+            sessionStorage.setItem('email', decodedToken.Email);
+            sessionStorage.setItem('name', decodedToken.Name);
+            sessionStorage.setItem('lastname', decodedToken.Lastname);
+            //{User_id: 'efd498a5-5625-4d3a-6dc8-08db50b9f449', Email: 'admin@fitnote.pl', Name: 'Admin', Lastname: 'Admin', Role: 'Admin', …}
+          }
+        },
+        (error) => {
+          console.error('Error:', error);
+          this.material.showAlert('Something goes wrong! Error: ' + error);
+        }
+      );
   }
 
   register(
     email: string,
     password: string,
-    name: string,
-    lastname: string,
-    phone_number: string
-  ): Observable<any> {
-    return this.http.post(
-      AUTH_API + 'register',
-      {
-        email,
-        password,
-        name,
-        lastname,
-        phone_number,
-      },
-      httpOptions
-    );
+    name: any,
+    lastname: any,
+    phone_number: any
+  ) {
+    this.http
+      .post(
+        AUTH_API + 'register',
+        {
+          email,
+          password,
+          name,
+          lastname,
+          phone_number,
+        },
+        httpOptions
+      )
+      .subscribe(
+        (response) => {
+          console.log('Response:', response);
+          this.material.showAlert(
+            'Register successfully! You can sign in now.'
+          );
+        },
+        (error) => {
+          console.error('Error:', error);
+          this.material.showAlert('Something goes wrong! Error: ' + error);
+        }
+      );
   }
 }

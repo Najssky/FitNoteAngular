@@ -11,62 +11,66 @@ export class RegisterComponent {
   constructor(private Auth: AuthService) {}
   hide = true;
 
-  email = new FormControl<string | null>('', [
-    Validators.required,
-    Validators.email,
-  ]);
-  password = new FormControl<string | null>('', [
+  email = new FormControl<string>('', [Validators.required, Validators.email]);
+  password = new FormControl<string>('', [
     Validators.required,
     Validators.minLength(1),
   ]);
-  name = new FormControl<string | null>('', [
+  name = new FormControl<string>('', [
     Validators.required,
     Validators.minLength(1),
   ]);
-  lastname = new FormControl<string | null>('', [
+  lastname = new FormControl<string>('', [
     Validators.required,
     Validators.minLength(1),
   ]);
-  number = new FormControl<string | null>('', [
+  number = new FormControl<string>('', [
     Validators.required,
     Validators.minLength(9),
+    Validators.maxLength(9),
   ]);
   register() {
     if (this.email.value && this.password.value) {
-      this.Auth.login(this.email.value, this.password.value);
+      this.Auth.register(
+        this.email.value,
+        this.password.value,
+        this.name.value,
+        this.lastname.value,
+        this.number.value
+      );
     }
   }
   getEmailErrorMessage() {
     if (this.email.hasError('required')) {
-      return 'You must enter an email';
+      return 'Enter an email';
     }
 
     return this.email.hasError('email') ? 'Not a valid email' : '';
   }
   getPasswordErrorMessage() {
     if (this.password.hasError('required')) {
-      return 'You must enter a password';
+      return 'Enter a password';
     }
 
     return this.password.hasError('email') ? 'Not a valid password' : '';
   }
   getNameErrorMessage() {
     if (this.name.hasError('required')) {
-      return 'You must enter a name';
+      return 'Enter a name';
     }
 
     return this.name.hasError('name') ? 'Not a valid name' : '';
   }
   getLastnameErrorMessage() {
     if (this.lastname.hasError('required')) {
-      return 'You must enter a lastname';
+      return 'Enter a lastname';
     }
 
     return this.lastname.hasError('lastname') ? 'Not a valid lastname' : '';
   }
   getNumberErrorMessage() {
     if (this.number.hasError('required')) {
-      return 'You must enter a password';
+      return 'Enter a phone number';
     }
 
     return this.number.hasError('number') ? 'Not a valid phone number' : '';

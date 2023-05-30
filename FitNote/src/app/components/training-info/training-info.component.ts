@@ -59,8 +59,7 @@ export class TrainingInfoComponent implements OnInit {
       training_user_id: '7046dd17-0b7b-4db2-256d-08db59e269e4',
       training_date: this.data.Date,
     });
-    this.trainingSubmited = true;
-    console.log(this.trainingSubmited);
+    this.onNoClick();
   }
   onNoClick() {
     this.dialogRef.close();
@@ -83,8 +82,6 @@ export class TrainingInfoComponent implements OnInit {
           training_user_id: item.training_user_id,
           training_date: item.training_date,
         }));
-        console.log(this.userTraining);
-        console.log(this.mappedTraining);
         this.mappedTraining.forEach((item: any) => {
           const parsedDetails = JSON.parse(item.training_details);
           this.userTrainingDetails.push(parsedDetails);
@@ -107,12 +104,5 @@ export class TrainingInfoComponent implements OnInit {
       training_date: this.mappedTraining[0].training_date,
     });
     this.isEditing = false;
-    console.log(this.userTrainingDetails);
-    console.log(
-      this.mappedTraining[0].training_id,
-      JSON.stringify(this.userTrainingDetails),
-      this.mappedTraining[0].training_user_id,
-      this.mappedTraining[0].training_date
-    );
   }
 }

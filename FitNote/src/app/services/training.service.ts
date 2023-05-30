@@ -1,11 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AngularMaterialModule } from '../modules/angular-material.module';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TrainingService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private material: AngularMaterialModule
+  ) {}
   public httpOptions = new HttpHeaders({ 'Content-Type': 'application/json' });
   private apiUrl = 'https://localhost:44369/api/Training';
   postTraining(training: TrainingType) {
@@ -15,9 +19,11 @@ export class TrainingService {
       .subscribe(
         (response) => {
           console.log('Response:', response);
+          this.material.showAlert('Training added successfully');
         },
         (error) => {
           console.error('Error:', error);
+          this.material.showAlert('Something goes wrong! Error: ' + error);
         }
       );
   }
@@ -27,10 +33,11 @@ export class TrainingService {
       .subscribe(
         (response) => {
           console.log('Response:', response);
+          this.material.showAlert('Training edited successfully');
         },
         (error) => {
           console.error('Error:', error);
-          console.log(this.apiUrl + trainingId);
+          this.material.showAlert('Something goes wrong! Error: ' + error);
         }
       );
   }
