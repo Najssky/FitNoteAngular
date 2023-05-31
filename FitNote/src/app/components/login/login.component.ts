@@ -29,7 +29,6 @@ export class LoginComponent {
   login() {
     if (this.email.value && this.password.value) {
       this.Auth.login(this.email.value, this.password.value);
-      alert('Login successfully');
     } else {
       console.log('You must enter email and pasword');
     }

@@ -1,13 +1,9 @@
 <div class="navContainer">
-  <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
-    <li [ngbNavItem]="1">
-      <button ngbNavLink>One</button>
-    </li>
-    <li [ngbNavItem]="2">
-      <button ngbNavLink>Two</button>
-    </li>
-    <li [ngbNavItem]="3">
-      <button ngbNavLink>Three</button>
-    </li>
-  </ul>
+  <mat-toolbar color="primary">
+    <button mat-raised-button color="primary" routerLink="/home">Home</button>
+    <button mat-raised-button color="primary" routerLink="/about">About</button>
+    <span class="spacer"></span>
+    Hi {{ userName }}
+    <button mat-raised-button color="primary" (click)="logout()">Logout</button>
+  </mat-toolbar>
 </div>

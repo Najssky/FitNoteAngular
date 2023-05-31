@@ -1,8 +1,10 @@
 <div class="container">
-  <mat-chip-listbox aria-label="Fish selection">
-    <mat-chip-option (click)="setLogin()">Login</mat-chip-option>
-    <mat-chip-option (click)="setRegister()">Register</mat-chip-option>
-  </mat-chip-listbox>
+  <div class="buttons">
+    <mat-chip-listbox aria-label="Login or register selection">
+      <mat-chip-option (click)="setLogin()">Login</mat-chip-option>
+      <mat-chip-option (click)="setRegister()">Register</mat-chip-option>
+    </mat-chip-listbox>
+  </div>
   <app-login *ngIf="showLogin"></app-login>
   <app-register *ngIf="!showLogin"></app-register>
 </div>
