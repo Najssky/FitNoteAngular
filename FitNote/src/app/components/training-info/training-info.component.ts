@@ -25,6 +25,7 @@ export class TrainingInfoComponent implements OnInit {
   public userTraining: Array<TrainingType> = [];
   public userTrainingDetails: any[] = [];
   public mappedTraining: any;
+  public userId = sessionStorage.getItem('userId');
   public formTitle = 'Enter your workout details:';
   public exercises: Array<IExerciseSet> = [
     { Exercise: '', Reps: 0, Weight: 0 },
@@ -56,7 +57,7 @@ export class TrainingInfoComponent implements OnInit {
       .join(', ');
     this._ts.postTraining({
       training_details: JSON.stringify(this.exercises),
-      training_user_id: '7046dd17-0b7b-4db2-256d-08db59e269e4',
+      training_user_id: this.userId,
       training_date: this.data.Date,
     });
     this.onNoClick();
@@ -71,9 +72,8 @@ export class TrainingInfoComponent implements OnInit {
     });
   }
   getTraining() {
-    let id = '7046dd17-0b7b-4db2-256d-08db59e269e4';
     this._ts
-      .getTrainingByUserAndDate(id, this.data.Date)
+      .getTrainingByUserAndDate(this.userId, this.data.Date)
       .subscribe((res: any) => {
         this.userTraining = res;
         this.mappedTraining = this.userTraining.map((item: any) => ({

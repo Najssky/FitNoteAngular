@@ -1,8 +1,5 @@
 <h1 mat-dialog-title>Training on {{ data.Date }}</h1>
-<div
-  class="modalHasNotTraining"
-  *ngIf="this.userTraining.length < 1"
->
+<div class="modalHasNotTraining" *ngIf="this.userTraining.length < 1">
   <div mat-dialog-content>
     <div fxLayout="column">
       <h2>{{ formTitle }}</h2>
@@ -79,10 +76,7 @@
     <button mat-button (click)="onNoClick()">Close</button>
   </div>
 </div>
-<div
-  class="modalHasTraining"
-  *ngIf="this.userTraining.length > 0"
->
+<div class="modalHasTraining" *ngIf="this.userTraining.length > 0">
   <div mat-dialog-content>
     <p>Your exercises:</p>
     <mat-card>

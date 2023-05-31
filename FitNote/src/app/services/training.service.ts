@@ -41,7 +41,7 @@ export class TrainingService {
         }
       );
   }
-  getTrainingByUserAndDate(userId: string, date: string) {
+  getTrainingByUserAndDate(userId: any, date: string) {
     return this.http.get(
       this.apiUrl + '/byUserIdAndDate/' + userId + '?Training_date=' + date
     );
@@ -54,7 +54,7 @@ export type TrainingDetailsType = {
 };
 export interface TrainingType {
   training_details: string;
-  training_user_id: string;
+  training_user_id: any;
   training_date: string;
 }
 export interface EditedTrainingType {

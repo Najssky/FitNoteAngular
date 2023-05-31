@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AngularMaterialModule } from '../modules/angular-material.module';
 const AUTH_API = 'https://localhost:44369/api/Authentication/';
@@ -15,9 +16,10 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private material: AngularMaterialModule,
-    private jwtHelper: JwtHelperService
+    private jwtHelper: JwtHelperService,
+    private router: Router
   ) {}
-
+  public isLogged: any = true;
   login(email: string, password: string) {
     this.http
       .post(AUTH_API + 'login', {
@@ -39,7 +41,9 @@ export class AuthService {
             sessionStorage.setItem('email', decodedToken.Email);
             sessionStorage.setItem('name', decodedToken.Name);
             sessionStorage.setItem('lastname', decodedToken.Lastname);
+            sessionStorage.setItem('isLogged', this.isLogged);
             //{User_id: 'efd498a5-5625-4d3a-6dc8-08db50b9f449', Email: 'admin@fitnote.pl', Name: 'Admin', Lastname: 'Admin', Role: 'Admin', …}
+            this.router.navigate(['home']);
           }
         },
         (error) => {
