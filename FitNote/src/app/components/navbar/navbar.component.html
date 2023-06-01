@@ -3,6 +3,11 @@
     <button mat-raised-button color="primary" routerLink="/home">Home</button>
     <button mat-raised-button color="primary" routerLink="/about">About</button>
     <span class="spacer"></span>
+    <mat-chip-listbox aria-label="Darkmode selection">
+      <mat-chip-option (click)="sendDataToHome()" color="primary">
+        Turn darkmode
+      </mat-chip-option>
+    </mat-chip-listbox>
     Hi {{ userName }}
     <button mat-raised-button color="primary" (click)="logout()">Logout</button>
   </mat-toolbar>

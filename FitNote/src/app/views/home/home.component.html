@@ -1,6 +1,6 @@
-<ng-container>
-  <app-navbar></app-navbar>
-  <div class="contentContainer">
+<div [ngClass]="isDarkmode ? 'containerDark' : 'container'">
+  <app-navbar (eventData)="darkmodeHandle($event)"></app-navbar>
+  <div [ngClass]="isDarkmode ? 'contentContainerDark' : 'contentContainer'">
     <app-calendar></app-calendar>
   </div>
-</ng-container>
+</div>

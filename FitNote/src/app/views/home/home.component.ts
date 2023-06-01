@@ -1,10 +1,4 @@
-import { Component } from '@angular/core';
-import {
-  AbstractControl,
-  FormArray,
-  FormBuilder,
-  FormGroup,
-} from '@angular/forms';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -12,4 +6,10 @@ import {
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
+  @Output() eventData = new EventEmitter<any>();
+  public isDarkmode: boolean = false;
+
+  darkmodeHandle(data: any) {
+    this.isDarkmode = data;
+  }
 }

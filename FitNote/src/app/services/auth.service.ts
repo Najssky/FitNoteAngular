@@ -47,8 +47,17 @@ export class AuthService {
           }
         },
         (error) => {
-          console.error('Error:', error);
-          this.material.showAlert('Something goes wrong! Error: ' + error);
+          const errorResponse = error.error;
+          const startIndex = errorResponse.indexOf(':') + 1;
+          const endIndex =
+            errorResponse.indexOf(
+              'at FitNote_API.Core.Repositories.AuthenticationRepository'
+            ) - 1;
+          const errorMessage = errorResponse
+            .substring(startIndex, endIndex)
+            .trim();
+          console.log(errorMessage, endIndex); // Output: The email or password is incorrect
+          this.material.showAlert('Something goes wrong! ' + errorMessage);
         }
       );
   }
@@ -80,8 +89,9 @@ export class AuthService {
           );
         },
         (error) => {
-          console.error('Error:', error);
-          this.material.showAlert('Something goes wrong! Error: ' + error);
+          const errorResponse = error.error.title;
+          console.log(error);
+          this.material.showAlert('Something goes wrong! ' + errorResponse);
         }
       );
   }
