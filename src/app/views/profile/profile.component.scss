@@ -20,8 +20,7 @@
   background-color: #333;
   color: white;
 }
-@media (max-width: 600px) {
-  .calendar {
-    min-height: 50vh;
-  }
+mat-card {
+  background: #777;
+  color: white;
 }

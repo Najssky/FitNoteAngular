@@ -1,17 +1,23 @@
-.navContainer {
-  ul {
-    .nav {
-      height: 50px;
-    }
-  }
+mat-toolbar {
   margin-bottom: 25px;
-  button {
-    margin: 0 10px;
-  }
 }
 .spacer {
   flex: 1 1 auto;
 }
 .mdc-evolution-chip-set {
   margin-right: 10px;
+}
+
+.menu-items {
+  display: none;
+}
+
+@media (min-width: 600px) {
+  .menu-items {
+    display: flex;
+    align-items: center;
+  }
+  .toggleButton {
+    display: none;
+  }
 }

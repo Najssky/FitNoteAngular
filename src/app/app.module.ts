@@ -19,6 +19,8 @@ import { AuthService } from './services/auth.service';
 import { TokenStorageService } from './services/token-storage.service';
 import { HomeComponent } from './views/home/home.component';
 import { UnloggedHomeComponent } from './views/unlogged-home/unlogged-home.component';
+import { AddExerciseComponent } from './components/add-exercise/add-exercise.component';
+import { ProfileComponent } from './views/profile/profile.component';
 export function tokenGetter() {
   const token = localStorage.getItem('access_token');
   return token;
@@ -33,6 +35,8 @@ export function tokenGetter() {
     CalendarComponent,
     NavbarComponent,
     TrainingInfoComponent,
+    AddExerciseComponent,
+    ProfileComponent,
   ],
   imports: [
     HttpClientModule,

@@ -1,14 +1,42 @@
-<div class="navContainer">
-  <mat-toolbar color="primary">
-    <button mat-raised-button color="primary" routerLink="/home">Home</button>
-    <button mat-raised-button color="primary" routerLink="/about">About</button>
-    <span class="spacer"></span>
+<mat-toolbar color="primary">
+  <button mat-menu-item [matMenuTriggerFor]="menu" class="toggleButton">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="/home">Home</button>
+    <button mat-menu-item (click)="this.openDialog()">Add Exercise</button>
     <mat-chip-listbox aria-label="Darkmode selection">
       <mat-chip-option (click)="sendDataToHome()" color="primary">
         Turn darkmode
       </mat-chip-option>
     </mat-chip-listbox>
-    Hi {{ userName }}
-    <button mat-raised-button color="primary" (click)="logout()">Logout</button>
-  </mat-toolbar>
-</div>
+    <button mat-menu-item [matMenuTriggerFor]="profileMenu">
+      Hi {{ userName }}
+    </button>
+  </mat-menu>
+  <mat-menu #profileMenu="matMenu">
+    <button mat-menu-item routerLink="/profile">Profile</button>
+    <button mat-menu-item (click)="logout()">Logout</button>
+  </mat-menu>
+
+  <span style="margin-right: 10px; font-size: larger; font-weight: bold"
+    >FitNote</span
+  >
+  <div class="menu-items">
+    <button mat-raised-button color="primary" routerLink="/home">Home</button>
+    <button mat-raised-button color="primary" (click)="this.openDialog()">
+      Add Exercise
+    </button>
+  </div>
+  <div class="spacer"></div>
+  <div class="menu-items">
+    <mat-chip-listbox aria-label="Darkmode selection">
+      <mat-chip-option (click)="sendDataToHome()" color="primary">
+        Turn darkmode
+      </mat-chip-option>
+    </mat-chip-listbox>
+    <button mat-menu-item [matMenuTriggerFor]="profileMenu">
+      Hi {{ userName }}
+    </button>
+  </div>
+</mat-toolbar>

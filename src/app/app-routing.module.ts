@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoggedUserGuard } from './logged-user.guard';
 import { HomeComponent } from './views/home/home.component';
 import { UnloggedHomeComponent } from './views/unlogged-home/unlogged-home.component';
+import { ProfileComponent } from './views/profile/profile.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,11 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
+    canActivate: [LoggedUserGuard],
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent,
     canActivate: [LoggedUserGuard],
   },
 ];

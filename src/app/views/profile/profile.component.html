@@ -1,0 +1,23 @@
+<div [ngClass]="isDarkmode ? 'containerDark' : 'container'">
+  <app-navbar (eventData)="darkmodeHandle($event)"></app-navbar>
+  <div [ngClass]="isDarkmode ? 'contentContainerDark' : 'contentContainer'">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title><h2>Your Profile:</h2></mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <h6>Email:</h6>
+        {{ userEmail }}
+        <h6>Name:</h6>
+        {{ userName }}
+        <h6>Lastname:</h6>
+        {{ userLastname }}
+        <h6>All trainings:</h6>
+        {{ userTrainings.length }}
+        <mat-divider></mat-divider>
+      </mat-card-content>
+      <mat-card-actions> </mat-card-actions>
+      <mat-card-footer> </mat-card-footer>
+    </mat-card>
+  </div>
+</div>

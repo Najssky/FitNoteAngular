@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import bootstrap5Plugin from '@fullcalendar/bootstrap5';
 import { CalendarOptions } from '@fullcalendar/core';
@@ -16,11 +16,13 @@ export interface DialogData {
 })
 export class CalendarComponent {
   constructor(public dialog: MatDialog) {}
+  @Input() isDarkMode!: boolean;
 
   openDialog(date: any): void {
+    console.log(this.isDarkMode);
     const dialogRef = this.dialog.open(TrainingInfoComponent, {
       data: { Date: date },
-      panelClass: 'customModalbox',
+      minWidth: window.innerWidth <= 600 ? '100vw' : '60vw',
     });
 
     dialogRef.afterClosed().subscribe((result) => {

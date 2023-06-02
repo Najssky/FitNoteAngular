@@ -1,0 +1,31 @@
+<h1 mat-dialog-title>Add new exercise</h1>
+<div mat-dialog-content>
+  <div fxLayout="column">
+    <h2></h2>
+    <mat-card>
+      <mat-card-content>
+        <mat-form-field class="col-12">
+          <mat-label>Exercise name</mat-label>
+          <input
+            matInput
+            [(ngModel)]="exerciseName"
+            [formControl]="exercise"
+            required
+          />
+          <mat-error *ngIf="exercise.invalid">Put exercise name</mat-error>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+    <button
+      mat-raised-button
+      color="primary"
+      style="margin-top: 16px"
+      (click)="submitExercise()"
+    >
+      <mat-icon>add</mat-icon>  Submit
+    </button>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Close</button>
+</div>

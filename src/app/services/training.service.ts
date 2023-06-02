@@ -42,6 +42,11 @@ export class TrainingService {
       AUTH_API + 'Training/byUserIdAndDate/' + userId + '?Training_date=' + date
     );
   }
+  getTrainingByUser(userId: any) {
+    return this.http.get(
+      AUTH_API + 'Training/byUserId/' + userId
+    );
+  }
 }
 export type TrainingDetailsType = {
   Exercise: string;
