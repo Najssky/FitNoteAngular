@@ -2,8 +2,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { environment } from 'src/environments/environments.prod';
 import { AngularMaterialModule } from '../modules/angular-material.module';
-const AUTH_API = 'https://localhost:44369/api/Authentication/';
+const AUTH_API = environment.apiUrl;
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -22,27 +23,23 @@ export class AuthService {
   public isLogged: any = true;
   login(email: string, password: string) {
     this.http
-      .post(AUTH_API + 'login', {
+      .post(AUTH_API + 'Authentication/login', {
         email,
         password,
       })
       .subscribe(
         (response: any) => {
-          console.log('Response:', response);
           this.material.showAlert('Login successfully');
           sessionStorage.setItem('access_token', response.data.accessToken);
-          console.log(response.data.accessToken);
           if (response.data.accessToken) {
             const decodedToken = this.jwtHelper.decodeToken(
               response.data.accessToken
             );
-            console.log(decodedToken);
             sessionStorage.setItem('userId', decodedToken.User_id);
             sessionStorage.setItem('email', decodedToken.Email);
             sessionStorage.setItem('name', decodedToken.Name);
             sessionStorage.setItem('lastname', decodedToken.Lastname);
             sessionStorage.setItem('isLogged', this.isLogged);
-            //{User_id: 'efd498a5-5625-4d3a-6dc8-08db50b9f449', Email: 'admin@fitnote.pl', Name: 'Admin', Lastname: 'Admin', Role: 'Admin', …}
             this.router.navigate(['home']);
           }
         },
@@ -56,7 +53,6 @@ export class AuthService {
           const errorMessage = errorResponse
             .substring(startIndex, endIndex)
             .trim();
-          console.log(errorMessage, endIndex); // Output: The email or password is incorrect
           this.material.showAlert('Something goes wrong! ' + errorMessage);
         }
       );
@@ -71,7 +67,7 @@ export class AuthService {
   ) {
     this.http
       .post(
-        AUTH_API + 'register',
+        AUTH_API + 'Authentication/register',
         {
           email,
           password,
@@ -83,14 +79,12 @@ export class AuthService {
       )
       .subscribe(
         (response) => {
-          console.log('Response:', response);
           this.material.showAlert(
             'Register successfully! You can sign in now.'
           );
         },
         (error) => {
           const errorResponse = error.error.title;
-          console.log(error);
           this.material.showAlert('Something goes wrong! ' + errorResponse);
         }
       );

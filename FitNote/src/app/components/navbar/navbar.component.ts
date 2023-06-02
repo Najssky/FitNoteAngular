@@ -21,13 +21,9 @@ export class NavbarComponent {
     } else {
       this.isDarkmode = false;
     }
-    console.log('dupa');
   }
   sendDataToHome() {
-    console.log('dupa');
-    console.log(this.isDarkmode);
     this.turnDarkmode();
     this.eventData.emit(this.isDarkmode);
-    console.log('dupa');
   }
 }

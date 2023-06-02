@@ -45,11 +45,11 @@ export function tokenGetter() {
     FullCalendarModule,
     NgBootstrapModule,
     FlexLayoutModule,
+
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        allowedDomains: ['example.com'], // Replace with your server domain
-        disallowedRoutes: ['example.com/auth/'], // Replace with your server's auth routes
+        allowedDomains: ['example.com'],
       },
     }),
   ],

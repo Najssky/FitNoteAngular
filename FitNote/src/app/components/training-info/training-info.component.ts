@@ -68,7 +68,6 @@ export class TrainingInfoComponent implements OnInit {
   getExercises() {
     this._es.getExercises().subscribe((res) => {
       this.exercisesList = res;
-      console.log(this.exercisesList);
     });
   }
   getTraining() {

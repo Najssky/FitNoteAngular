@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import bootstrap5Plugin from '@fullcalendar/bootstrap5';
-import { CalendarOptions } from '@fullcalendar/core'; // useful for typechecking
+import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { TrainingInfoComponent } from '../training-info/training-info.component';
@@ -15,7 +15,6 @@ export interface DialogData {
   styleUrls: ['./calendar.component.scss'],
 })
 export class CalendarComponent {
-  // Modal
   constructor(public dialog: MatDialog) {}
 
   openDialog(date: any): void {

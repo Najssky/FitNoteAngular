@@ -6,13 +6,6 @@ import { AuthService } from 'src/app/services/auth.service';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  //   providers: [
-  //     {
-  //       provide: NG_VALUE_ACCESSOR,
-  //       useExisting: forwardRef(() => LoginComponent), // replace name as appropriate
-  //       multi: true,
-  //     },
-  //   ],
 })
 export class LoginComponent {
   constructor(private Auth: AuthService) {}

@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularMaterialModule } from '../modules/angular-material.module';
-
+import { environment } from 'src/environments/environments.prod';
+const AUTH_API = environment.apiUrl;
 @Injectable({
   providedIn: 'root',
 })
@@ -11,39 +12,34 @@ export class TrainingService {
     private material: AngularMaterialModule
   ) {}
   public httpOptions = new HttpHeaders({ 'Content-Type': 'application/json' });
-  private apiUrl = 'https://localhost:44369/api/Training';
   postTraining(training: TrainingType) {
     console.log(training);
     this.http
-      .post(this.apiUrl, training, { headers: this.httpOptions })
+      .post(AUTH_API + 'Training', training, { headers: this.httpOptions })
       .subscribe(
         (response) => {
-          console.log('Response:', response);
           this.material.showAlert('Training added successfully');
         },
         (error) => {
-          console.error('Error:', error);
           this.material.showAlert('Something goes wrong! Error: ' + error);
         }
       );
   }
   putTraining(trainingId: any, training: EditedTrainingType) {
     return this.http
-      .put(this.apiUrl + '?Training_id=' + trainingId, training)
+      .put(AUTH_API + 'Training?Training_id=' + trainingId, training)
       .subscribe(
         (response) => {
-          console.log('Response:', response);
           this.material.showAlert('Training edited successfully');
         },
         (error) => {
-          console.error('Error:', error);
           this.material.showAlert('Something goes wrong! Error: ' + error);
         }
       );
   }
   getTrainingByUserAndDate(userId: any, date: string) {
     return this.http.get(
-      this.apiUrl + '/byUserIdAndDate/' + userId + '?Training_date=' + date
+      AUTH_API + 'Training/byUserIdAndDate/' + userId + '?Training_date=' + date
     );
   }
 }
